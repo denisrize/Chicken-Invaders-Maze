@@ -16,58 +16,37 @@ public class Maze {
             }
         }
     }
+
     public Position getStartPosition(){ return startPos;}
 
     public Position getGoalPosition(){return goalPos;}
 
     public void print(){
-
-        System.out.printf(" _ _".repeat(col)+ "\n");
         for(int i=0;i<row;i++){
-            String bottom = new String() ;
-            for(int j=-1;j<= col;j++){
-                if( j==-1 || j == col){
-                    System.out.printf("|");
-                    bottom += "|";
+            for(int j=0;j<col;j++){
+                if(grid[i][j] == startPos){
+                    System.out.print("S ");
+                    continue;
+                }
+                if(grid[i][j] == goalPos){
+                    System.out.print("E ");
                     continue;
                 }
 
-                Position current = grid[i][j];
-                if( current == startPos) {System.out.printf("S ");}
-
-                else if( current == goalPos) {System.out.printf("E ");}
-
-                else {System.out.printf("0 ");}
-
-                //check right border
-                if(j < col-1){
-                    if( current.getWalls()[1] ) {System.out.printf("1 ");}
-                    else {System.out.printf("0 ");}
-                }
-                if(i < row-1 ){
-                    if(current.getWalls()[2]){ bottom += "1 "; }
-                    else { bottom += "0 "; }
-                    if(j < col-1){ bottom += "1 ";}
-
-                }
-
-
-
+                if(grid[i][j].isWall()) System.out.print("1 ");
+                else System.out.print("0 ");
             }
-            System.out.printf("\n");
-            if(i < row-1){System.out.println(bottom);};
-
+            System.out.print("\n");
         }
-        System.out.printf(" _ _".repeat(col));
-
 
     }
 
     public void setStartPosition(Position startPos) {
         this.startPos = startPos;
     }
-    public void setGoalPosition(Position endPos) {
-        this.goalPos = endPos;
+
+    public void setGoalPosition(Position goalPos) {
+        this.goalPos = goalPos;
     }
 
     public Position[][] getGrid() {

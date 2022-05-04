@@ -4,21 +4,19 @@ import java.util.ArrayList;
 public class Position {
     int row;
     int col;
-    public boolean visited = false;
-    boolean[] walls = {true,true,true,true}; // top,right,bottom,left
-    ArrayList<Position> neighbours = new ArrayList<Position>();
+    boolean wall = true;
 
     public Position(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public boolean[] getWalls() {
-        return walls;
+    public void setWall(boolean wall) {
+        this.wall = wall;
     }
 
-    public ArrayList<Position> getNeighbours() {
-        return neighbours;
+    public boolean isWall() {
+        return wall;
     }
 
     public int getRowIndex() {
@@ -30,6 +28,8 @@ public class Position {
     }
 
     public String toString(){
-        return "{"+ row+1 + "," + col+1 +"}";
+        int x = row+1;
+        int y = col+1;
+        return "{"+ x + "," + y +"}";
     }
 }
