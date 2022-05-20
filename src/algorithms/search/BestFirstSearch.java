@@ -11,6 +11,8 @@ public class BestFirstSearch extends ASearchingAlgorithm{
     @Override
     public Solution solve(ISearchable s) {
 
+        if(s == null) return null;
+
         AState start = s.getStartState();
         AState goal = s.getGoalState();
 
