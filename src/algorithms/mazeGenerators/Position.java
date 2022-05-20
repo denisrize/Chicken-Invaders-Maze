@@ -1,15 +1,22 @@
 package algorithms.mazeGenerators;
+import algorithms.search.MazeState;
+
 import java.util.ArrayList;
 
 public class Position {
     int row;
     int col;
     boolean wall = true;
+    boolean visited = false;
 
     public Position(int row, int col) {
         this.row = row;
         this.col = col;
     }
+
+    public boolean isVisited() {return visited;}
+
+    public void setVisited(boolean vis) {visited = vis;}
 
     public void setWall(boolean wall) {
         this.wall = wall;
@@ -25,6 +32,12 @@ public class Position {
 
     public int getColumnIndex() {
         return col;
+    }
+
+    public boolean equal(Object ob){
+
+        Position p = (Position) ob;
+        return this.getColumnIndex() == p.getColumnIndex() && (this.getRowIndex() == p.getRowIndex());
     }
 
     public String toString(){
