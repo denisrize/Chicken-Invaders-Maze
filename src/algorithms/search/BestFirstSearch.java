@@ -103,16 +103,5 @@ public class BestFirstSearch extends ASearchingAlgorithm{
         return null;
     }
 
-    class AStateComparator implements Comparator<AState> {
-
-        @Override
-        public int compare(AState state1, AState state2) {
-
-                if( state1.getCost() > state2.getCost()) return 1;
-                else if(state1.getCost() < state2.getCost() ) return -1;
-                return 0;
-
-        }
-    }
 
 }
