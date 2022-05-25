@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BestFirstSearch extends ASearchingAlgorithm{
 
-    PriorityQueue<AState> openList = new PriorityQueue<AState>( (Comparator<AState>)(AState s1,AState s2) -> s1.getCost() - s2.getCost());
+    PriorityQueue<AState> openList = new PriorityQueue<AState>( (Comparator<AState>)(AState s1,AState s2) -> s1.getCost()-s2.getCost());
     LinkedList<AState> closeList = new LinkedList<AState>();
 
     @Override
@@ -28,27 +28,31 @@ public class BestFirstSearch extends ASearchingAlgorithm{
 
                     if(!curNeighbor.isVisited()){
                         curNeighbor.setVisited(true);
-                        openList.add(curNeighbor);
-                        curNeighbor.setParentState(curState);
                         curNeighbor.setCost(curState);
+                        curNeighbor.setParentState(curState);
+                        openList.add(curNeighbor);
                     }
                     else{ // check if new path is better than the previous.
+                        int fromQueueFlag = 0;
                         AState visitedState = getFromList(curNeighbor);
-                        if( visitedState == null)  visitedState = getFromQueue(curNeighbor);
+
+                        if( visitedState == null) {
+                            visitedState = getFromQueue(curNeighbor);
+                            fromQueueFlag = 1;
+                        }
 
                         int oldCost = visitedState.getCost();
                         visitedState.setCost(curState);
 
-                        if(oldCost < visitedState.getCost()){
-                            visitedState.setCost(oldCost);
+                        if(oldCost < visitedState.getCost()) visitedState.setCost(oldCost);
+                        else visitedState.setParentState(curState);
+
+                        if( fromQueueFlag == 1){
+                            openList.add(visitedState);
                             continue;
                         }
+                        closeList.add(visitedState);
 
-                        else if( !openList.contains(visitedState)){
-                            openList.add(visitedState);
-                            closeList.remove(visitedState);
-                        }
-                        visitedState.setParentState(curState);
                     }
 
 
@@ -81,13 +85,20 @@ public class BestFirstSearch extends ASearchingAlgorithm{
 
     private AState getFromQueue(AState curr){
         for(AState s: openList){
-            if( s.getState().equals(curr.getState())) return s;
+            if( s.getState().equals(curr.getState())) {
+                openList.remove(s);
+                return s;
+            }
+
         }
         return null;
     }
     private  AState getFromList(AState curr){
         for( AState s: closeList){
-            if( s.getState().equals(curr.getState())) return s;
+            if( s.getState().equals(curr.getState())){
+                closeList.remove(s);
+                return s;
+            }
         }
         return null;
     }
