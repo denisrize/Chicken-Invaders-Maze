@@ -44,7 +44,7 @@ public class SearchableMaze implements ISearchable{
 
                 if (curRow+row < maze.getRow() && curRow+row >= 0 && curCol+col >= 0  && curCol+col < maze.getCol() ) {
 
-                    if (!curGrid[curRow + row][curCol + col].isVisited() && !curGrid[curRow + row][curCol + col].isWall() )
+                    if (!curGrid[curRow + row][curCol + col].isWall() )
                         neighbors.add(new MazeState(curGrid[curRow + row][curCol + col]));
                 }
             }

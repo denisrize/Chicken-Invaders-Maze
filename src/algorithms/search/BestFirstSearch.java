@@ -1,12 +1,11 @@
 package algorithms.search;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class BestFirstSearch extends ASearchingAlgorithm{
 
-    PriorityQueue<AState> openList = new PriorityQueue<AState>( new AStateComparator());
+    PriorityQueue<AState> openList = new PriorityQueue<AState>( (Comparator<AState>)(AState s1,AState s2) -> s1.getCost() - s2.getCost());
+    LinkedList<AState> closeList = new LinkedList<AState>();
 
     @Override
     public Solution solve(ISearchable s) {
@@ -22,24 +21,45 @@ public class BestFirstSearch extends ASearchingAlgorithm{
         this.openList.add(start);
 
         while (!openList.isEmpty()) {
-
             AState curState = openList.poll();
-            ArrayList<AState> curNeighbours = s.getAllPossibleStates(curState);
+            ArrayList<AState> curNeighbors = s.getAllPossibleStates(curState);
 
-            for (AState curNeighbour : curNeighbours) {         // For loop through all neighbours
-                    curNeighbour.setVisited(true);
-                    openList.add(curNeighbour);
-                    curNeighbour.setParentState(curState);
-                    curNeighbour.setCost();
+            for (AState curNeighbor : curNeighbors) {         // For loop through all neighbours
 
-                if (curNeighbour.equals(goal)) {
+                    if(!curNeighbor.isVisited()){
+                        curNeighbor.setVisited(true);
+                        openList.add(curNeighbor);
+                        curNeighbor.setParentState(curState);
+                        curNeighbor.setCost(curState);
+                    }
+                    else{ // check if new path is better than the previous.
+                        AState visitedState = getFromList(curNeighbor);
+                        if( visitedState == null)  visitedState = getFromQueue(curNeighbor);
+
+                        int oldCost = visitedState.getCost();
+                        visitedState.setCost(curState);
+
+                        if(oldCost < visitedState.getCost()){
+                            visitedState.setCost(oldCost);
+                            continue;
+                        }
+
+                        else if( !openList.contains(visitedState)){
+                            openList.add(visitedState);
+                            closeList.remove(visitedState);
+                        }
+                        visitedState.setParentState(curState);
+                    }
+
+
+                if (curNeighbor.equals(goal)) {
 
                     Solution sol = new Solution();
 
-                    while (curNeighbour != null){
+                    while (curNeighbor != null){
 
-                        sol.setIntoSolutionArray(curNeighbour);
-                        curNeighbour = curNeighbour.getParentState();
+                        sol.setIntoSolutionArray(curNeighbor);
+                        curNeighbor = curNeighbor.getParentState();
                     }
 
                     visitedNodes = s.cleanSearchable();
@@ -48,6 +68,7 @@ public class BestFirstSearch extends ASearchingAlgorithm{
                 }
 
             }
+            closeList.add(curState);
         }
 
         return null;
@@ -58,15 +79,29 @@ public class BestFirstSearch extends ASearchingAlgorithm{
         return "Best First Search";
     }
 
+    private AState getFromQueue(AState curr){
+        for(AState s: openList){
+            if( s.getState().equals(curr.getState())) return s;
+        }
+        return null;
+    }
+    private  AState getFromList(AState curr){
+        for( AState s: closeList){
+            if( s.getState().equals(curr.getState())) return s;
+        }
+        return null;
+    }
+
     class AStateComparator implements Comparator<AState> {
 
         @Override
         public int compare(AState state1, AState state2) {
 
-            if( state1.getCost() > state2.getCost()) return 1;
-            else if(state1.getCost() < state2.getCost()) return -1;
-            return 0;
+                if( state1.getCost() > state2.getCost()) return 1;
+                else if(state1.getCost() < state2.getCost() ) return -1;
+                return 0;
 
         }
     }
+
 }

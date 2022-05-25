@@ -12,6 +12,7 @@ public class MazeState extends AState{
 
     public MazeState(Position p){
         this.position = p;
+        setState(position.toString());
     }
 
 
@@ -35,9 +36,9 @@ public class MazeState extends AState{
     public boolean isVisited() {return position.isVisited();}
 
     @Override
-    public void setCost() {
+    public void setCost(AState parentState) {
 
-        MazeState parent = (MazeState) this.getParentState();
+        MazeState parent = (MazeState) parentState;
 
         if (Math.abs(parent.getPosition().getRowIndex() - this.getPosition().getRowIndex()) == 1
             && Math.abs(parent.getPosition().getColumnIndex() - this.getPosition().getColumnIndex()) == 1) {

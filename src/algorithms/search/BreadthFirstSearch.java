@@ -7,7 +7,7 @@ import java.util.Queue;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm{
 
-    Queue<AState> openList = new LinkedList<AState>();
+    LinkedList<AState> openList = new LinkedList<AState>();
 
     @Override
     public Solution solve(ISearchable s) {

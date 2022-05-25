@@ -11,6 +11,10 @@ public abstract class AState {
 
     public void setParentState(AState p) { cameFrom = p; }
 
+    public void setState(String s){ this.state = s;}
+
+    public String getState(){ return this.state;}
+
     public AState getParentState() {return cameFrom;}
 
     public void setVisited(boolean visited) {}
@@ -21,7 +25,7 @@ public abstract class AState {
 
     public boolean isVisited() {return visited;}
 
-    public void setCost() {}
+    public void setCost(AState parent) {}
 
     public boolean getVisited() {return this.visited;}
 

@@ -10,7 +10,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
     public Solution solve(ISearchable s) {
         AState start = s.getStartState();
         AState goal = s.getGoalState();
-        Random rand = new Random();
+        //Random rand = new Random();
 
         start.setParentState(null);
         start.setVisited(true);
@@ -21,15 +21,24 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
 
             while( true) {
 
-                ArrayList<AState> neighbours = s.getAllPossibleStates(curState);
-                if(neighbours.size() == 0) break;
+                ArrayList<AState> neighbors = s.getAllPossibleStates(curState);
+               // if(neighbors.size() == 0) break;
 
-                AState curNeighbour = neighbours.get(rand.nextInt(neighbours.size()));
-                curNeighbour.setParentState(curState);
-                curNeighbour.setVisited(true);
+                AState curNeighbor = null;
+                for(AState neighbor: neighbors){
+                    if(!neighbor.isVisited()){
+                        curNeighbor = neighbor;
+                        break;
+                    }
+                }
+                if(curNeighbor == null) break;
 
-                openList.add(curNeighbour);
-                curState = curNeighbour;
+                //AState curNeighbor = neighbors.get(rand.nextInt(neighbors.size()));
+                curNeighbor.setParentState(curState);
+                curNeighbor.setVisited(true);
+
+                openList.add(curNeighbor);
+                curState = curNeighbor;
 
                 if(curState.equals(goal)){
                     Solution sol = new Solution();
