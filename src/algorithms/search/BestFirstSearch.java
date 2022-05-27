@@ -20,6 +20,7 @@ public class BestFirstSearch extends ASearchingAlgorithm{
 
         AState start = s.getStartState();
         AState goal = s.getGoalState();
+        if(start == null || goal == null) return null;
 
         start.setParentState(null);
         start.setVisited(true);

@@ -10,14 +10,21 @@ public class SearchableMaze implements ISearchable{
 
 
     public Maze maze;
+    protected MazeState startState;
+    protected MazeState endState;
 
-    public SearchableMaze(Maze m) { maze = m;}
+
+    public SearchableMaze(Maze m) {
+        maze = m;
+        startState = new MazeState(maze.getStartPosition());
+        endState = new MazeState(maze.getGoalPosition());
+    }
 
     @Override
-    public MazeState getStartState() { return new MazeState(maze.getStartPosition()); }
+    public MazeState getStartState() { return startState;  }
 
     @Override
-    public MazeState getGoalState() { return new MazeState(maze.getGoalPosition()); }
+    public MazeState getGoalState() { return  endState;}
 
     /**
      * This function return all the possible moves from a state. Possible move would be a one that is inside the bounds

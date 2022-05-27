@@ -12,7 +12,7 @@ public class MazeState extends AState{
 
     public MazeState(Position p){
         this.position = p;
-        setState(position.toString());
+        if(p != null) setState(position.toString());
     }
 
 
