@@ -8,6 +8,7 @@ import java.util.Random;
 public class SimpleMazeGenerator extends AMazeGenerator {
     Random rand = new Random();
 
+
     public Maze generate(int row, int col){
         if( row < 1 || col < 1){
             return null;

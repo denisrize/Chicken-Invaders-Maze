@@ -7,6 +7,12 @@ public class BestFirstSearch extends ASearchingAlgorithm{
     PriorityQueue<AState> openList = new PriorityQueue<AState>( (Comparator<AState>)(AState s1,AState s2) -> s1.getCost()-s2.getCost());
     LinkedList<AState> closeList = new LinkedList<AState>();
 
+    /**
+     * This function solve the maze with Best First Search algorithm by using priority queue that return the smallest cost move forward.
+     * In each move it's updating the cost in the state neighbors if the move from the current state is smaller than the previous one.
+     * @param s Searchable object to solve.
+     * @return A solution object that holds the path from start state to end state.
+     */
     @Override
     public Solution solve(ISearchable s) {
 
@@ -24,7 +30,7 @@ public class BestFirstSearch extends ASearchingAlgorithm{
             AState curState = openList.poll();
             ArrayList<AState> curNeighbors = s.getAllPossibleStates(curState);
 
-            for (AState curNeighbor : curNeighbors) {         // For loop through all neighbours
+            for (AState curNeighbor : curNeighbors) {         // For loop through all neighbors
 
                     if(!curNeighbor.isVisited()){
                         curNeighbor.setVisited(true);

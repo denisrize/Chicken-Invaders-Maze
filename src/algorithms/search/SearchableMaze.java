@@ -19,7 +19,12 @@ public class SearchableMaze implements ISearchable{
     @Override
     public MazeState getGoalState() { return new MazeState(maze.getGoalPosition()); }
 
-
+    /**
+     * This function return all the possible moves from a state. Possible move would be a one that is inside the bounds
+     * of the maze and to a non wall cell.
+     * @param s The current state to examine possible moves from it.
+     * @return List of all the possible moves to make from s.
+     */
     @Override
     public ArrayList<AState> getAllPossibleStates(AState s) {
 
@@ -52,6 +57,11 @@ public class SearchableMaze implements ISearchable{
 
         return neighbors;
     }
+
+    /**
+     * This function cleaning the maze by setting all the cells to unvisited for the next search algorithm to solve it.
+     * @return Int number of the cells that been visited in the search.
+     */
 
     @Override
     public int cleanSearchable() {

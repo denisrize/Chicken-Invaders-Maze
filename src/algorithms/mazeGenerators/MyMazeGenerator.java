@@ -6,6 +6,15 @@ public class MyMazeGenerator extends AMazeGenerator {
 
     Random rand = new Random();
 
+    /**
+     * This function use back tracking DFS algorithm to generate a maze. The DFS algorithm get the possible moves it can make
+     * from the current cell and then randomly chose one to move forward while breaking the wall between the cells.
+     * It repeats this process until there is no unvisited cells or no more possible moves to make in the maze.
+     * @param row number of rows in the maze
+     * @param col number of columns in the maze
+     * @return a full complex maze that got at least one path to solve it.
+     */
+
     public Maze generate(int row, int col){
 
         if( row < 1 || col < 1){
@@ -15,7 +24,7 @@ public class MyMazeGenerator extends AMazeGenerator {
         Position [][] grid = maze.getGrid();
 
         if( row < 4 || col < 4){
-            createDefaultMaze(maze,grid);
+            createDefaultMaze(maze);
             return maze;
         }
 
@@ -42,8 +51,12 @@ public class MyMazeGenerator extends AMazeGenerator {
         return maze;
     }
 
-    private void createDefaultMaze(Maze maze,Position[][] grid){
-
+    /**
+     *  Create a simple defalut maze with one solving path.
+     * @param maze Maze that has number of rows or columns smaller than 4.
+     */
+    private void createDefaultMaze(Maze maze){
+        Position[][] grid = maze.getGrid();
         for(int i=0;i< maze.getCol();i++){
             grid[0][i].setWall(false);
         }
@@ -51,12 +64,27 @@ public class MyMazeGenerator extends AMazeGenerator {
         maze.setGoalPosition(grid[0][maze.getCol()-1]);
     }
 
-
+    /**
+     * Create a passage between to cells by breaking the wall in the cell between them.
+     * @param cell1 first chosen cell
+     * @param cell2 second chosen cell
+     * @param grid grid that hold all of the cells in the maze.
+     */
     private void createPassage(Position cell1, Position cell2, Position[][] grid){
          int x = (cell1.getRowIndex() + cell2.getRowIndex())/2;
          int y = (cell1.getColumnIndex() + cell2.getColumnIndex())/2;
          grid[x][y].setWall(false);
     }
+
+    /**
+     * This function check all the possible moves forward from a cell. possible moves would be to cells that which are walls and
+     * inside the bounds of the maze.
+     * @param cell The current cell to examine possible moves from it.
+     * @param grid The grid of the maze that hold all the cells.
+     * @param row Number of rows in the maze.
+     * @param col number of columns in the maze.
+     * @return if there is one or more possible moves than randomly return one of them, else return null.
+     */
 
     private Position getRandomOption( Position cell, Position[][] grid, int row , int col){
         ArrayList<Position> neighbours = new ArrayList<Position>();
