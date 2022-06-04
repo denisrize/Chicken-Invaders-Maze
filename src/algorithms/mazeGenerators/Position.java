@@ -1,9 +1,10 @@
 package algorithms.mazeGenerators;
 import algorithms.search.MazeState;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Position {
+public class Position implements Serializable {
     int row;
     int col;
     boolean wall = true;
@@ -34,12 +35,16 @@ public class Position {
         return col;
     }
 
-    public boolean equal(Object ob){
+    @Override
+    public boolean equals(Object ob){
+        if( ob == this) return true;
+        if(!(ob instanceof Position)) return false;
 
         Position p = (Position) ob;
         return this.getColumnIndex() == p.getColumnIndex() && (this.getRowIndex() == p.getRowIndex());
     }
 
+    @Override
     public String toString(){
         int x = row+1;
         int y = col+1;

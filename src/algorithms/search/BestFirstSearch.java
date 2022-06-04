@@ -110,5 +110,4 @@ public class BestFirstSearch extends ASearchingAlgorithm{
         return null;
     }
 
-
 }
