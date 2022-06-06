@@ -1,12 +1,13 @@
 package algorithms.mazeGenerators;
-
 import java.io.Serializable;
+import java.util.Dictionary;
 
 public class Maze implements Serializable {
     private Position startPos;
     private Position goalPos;
     private Position [][] grid;
     int row,col;
+
 
     public Maze(int row, int col) {
         this.row = row;
@@ -19,9 +20,66 @@ public class Maze implements Serializable {
         }
     }
 
-    public Position getStartPosition(){ return startPos;}
+    // TODO: Finish the decompressor and then build this constructor
+    public Maze(byte[] byteArray)   {
 
-    public Position getGoalPosition(){return goalPos;}
+        int startX = 0;
+        int startY = 0;
+        int endX = 0;
+        int endY = 0;
+
+        // Row data
+        for (int i=0; i<4; i++)
+        {
+            row += Byte.toUnsignedInt(byteArray[i]);
+        }
+
+        // Col data
+        for (int i=4; i<8; i++)
+        {
+            col += Byte.toUnsignedInt(byteArray[i]);
+        }
+
+        // Start Position X
+        for (int i=0; i<4; i++)
+        {
+            startX += Byte.toUnsignedInt(byteArray[byteArray.length-16+i]);
+        }
+
+        // Start Position Y
+        for (int i=0; i<4; i++)
+        {
+            startY += Byte.toUnsignedInt(byteArray[byteArray.length-12+i]);
+        }
+
+        // End Position X
+        for (int i=0; i<4; i++)
+        {
+            endX += Byte.toUnsignedInt(byteArray[byteArray.length-8+i]);;
+        }
+
+        // End Position Y
+        for (int i=0; i<4; i++)
+        {
+            endY += Byte.toUnsignedInt(byteArray[byteArray.length-4+i]);
+        }
+
+
+        int index = 8;
+
+        this.grid = new Position[row][col];
+        for( int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                grid[i][j] = new Position(i,j);
+
+                // If byte is 0 so its Not a wall
+                grid[i][j].setWall(byteArray[index++] - 48 != 0);
+            }
+        }
+
+        this.setStartPosition(new Position(startX, startY));
+        this.setGoalPosition(new Position(endX, endY));
+    }
 
     public void print(){
         for(int i=0;i<row;i++){
@@ -43,69 +101,7 @@ public class Maze implements Serializable {
 
     }
 
-    // TODO: Finish the decompressor and then build this constructor
-    public Maze(byte[] byteArray)
-    {
-
-        int startX = 0;
-        int startY = 0;
-        int endX = 0;
-        int endY = 0;
-
-        // Row data
-        for (int i=0; i<4; i++)
-        {
-            row += byteArray[i];
-        }
-
-        // Col data
-        for (int i=4; i<8; i++)
-        {
-            col += byteArray[i];
-        }
-
-        // Start Position X
-        for (int i=0; i<4; i++)
-        {
-            startX += byteArray[byteArray.length-16+i];
-        }
-
-        // Start Position Y
-        for (int i=0; i<4; i++)
-        {
-            startY += byteArray[byteArray.length-12+i];
-        }
-
-        // End Position X
-        for (int i=0; i<4; i++)
-        {
-            endX += byteArray[byteArray.length-8+i];
-        }
-
-        // End Position Y
-        for (int i=0; i<4; i++)
-        {
-            endY += byteArray[byteArray.length-4+i];
-        }
-
-
-        int index = 8;
-
-        this.grid = new Position[row][col];
-        for( int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
-                grid[i][j] = new Position(i,j);
-
-                // If byte is 0 so its Not a wall
-                grid[i][j].setWall(byteArray[index++] - 48 != 0);
-            }
-        }
-
-        this.setStartPosition(new Position(startX, startY));
-        this.setGoalPosition(new Position(endX, endY));
-    }
-
-    public byte[] toByteArray(){
+    public byte[] toByteArray()  {
 
         byte[] rowOut = new byte[4];
         byte[] colOut = new byte[4];
@@ -114,7 +110,7 @@ public class Maze implements Serializable {
         byte[] endPositionX = new byte[4];
         byte[] endPositionY = new byte[4];
 
-        byte[] ans = new byte[col*row + 16];
+        byte[] ans = new byte[col*row + 24];
 
         int temp = row;
         for (int i=0; i<4; i++)
@@ -214,9 +210,9 @@ public class Maze implements Serializable {
         System.arraycopy(colOut, 0, ans, 4, 4);
 
         int index = 8;
-        for (int i=0; i<col; i++)
+        for (int i=0; i<row; i++)
         {
-            for (int j=0; j<row; j++)
+            for (int j=0; j<col; j++)
             {
                 if (grid[i][j].isWall())
                     ans[index] = 1;
@@ -241,6 +237,10 @@ public class Maze implements Serializable {
 
         return ans;
     }
+
+    public Position getStartPosition(){ return startPos;}
+
+    public Position getGoalPosition(){return goalPos;}
 
     public int getRow() {return row;}
 

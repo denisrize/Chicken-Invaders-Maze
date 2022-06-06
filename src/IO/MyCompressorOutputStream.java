@@ -1,6 +1,7 @@
 package IO;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -20,7 +21,6 @@ public class MyCompressorOutputStream extends OutputStream {
     public void write(int b) throws IOException {
 
     }
-
     @Override
     public void write(byte[] b) throws IOException {
 
@@ -62,13 +62,13 @@ public class MyCompressorOutputStream extends OutputStream {
 
         for (int i=0; i<4; i++)
         {
-            rowNum += row[i];
+            rowNum += Byte.toUnsignedInt(row[i]);
         }
 
         // Col data
         for (int i=0; i<4; i++)
         {
-            colNum += col[i];
+            colNum += Byte.toUnsignedInt(col[i]);
         }
 
         LinkedList<Byte> byteArr = new LinkedList<Byte>();
@@ -76,22 +76,23 @@ public class MyCompressorOutputStream extends OutputStream {
         int index = 8;
         byte[] tempArr = new byte[8];
 
-        for (int i=0; i<colNum; i++)
+        for (int i=0; i<rowNum; i++)
         {
-            for (int j=0; j<rowNum; j=j+8)
+            for (int j=0; j<colNum; j=j+8)
             {
                 if (index >= b.length - 16)
                     break;
                 Arrays.fill(tempArr, (byte)0);
-                if (j + 7 >= rowNum || index + 7 >= 10000)
+                if (j + 7 >= colNum || index + 7 >= rowNum*colNum+8)
                 {
 
-                    // The Case when we ended the stream
-                    if (index + 7 >= 10000)
-                        j += 8;
+                    int numOfBits;
 
-                    int numOfBits = rowNum - j;
-
+                    if (colNum%8 == 0)
+                        numOfBits = 8;
+                    else {
+                        numOfBits = colNum % 8;
+                    }
                     // Read the leftovers bits and then add untill its 8 bits
                     System.arraycopy(b, index, tempArr, 0, numOfBits);
                     StringBuilder bString = new StringBuilder();
@@ -120,7 +121,7 @@ public class MyCompressorOutputStream extends OutputStream {
         LinkedList<Byte> writeResArray = new LinkedList<Byte>(byteArr);
 
 
-        byte[] xx = new byte[writeResArray.size() + 16];
+        byte[] xx = new byte[writeResArray.size() + 24];
 
         int j=8;
         for(Byte by: writeResArray)
@@ -139,8 +140,6 @@ public class MyCompressorOutputStream extends OutputStream {
         System.arraycopy(endPositionX, 0, xx, xx.length - 8, 4);
 
         System.arraycopy(endPositionY, 0, xx, xx.length - 4, 4);
-
-
 
         out.write(xx);
 

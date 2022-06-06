@@ -21,11 +21,9 @@ public class RunCommunicateWithServers {
 //Starting servers
         solveSearchProblemServer.start();
         mazeGeneratingServer.start();
-        //testFileReading();
 //stringReverserServer.start();
 //Communicating with servers
-        //CommunicateWithServer_MazeGenerating();
-
+        CommunicateWithServer_MazeGenerating();
         CommunicateWithServer_SolveSearchProblem();
 //CommunicateWithServer_StringReverser();
 //Stopping all servers
@@ -54,7 +52,7 @@ public class RunCommunicateWithServers {
 
                                 InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
 
-                                byte[] decompressedMaze = new byte[1000 /*CHANGE
+                                byte[] decompressedMaze = new byte[2524 /*CHANGE
 SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
 
 

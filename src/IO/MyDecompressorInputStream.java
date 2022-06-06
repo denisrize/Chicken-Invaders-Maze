@@ -15,7 +15,6 @@ public class MyDecompressorInputStream extends InputStream {
         in = i;
     }
 
-
     @Override
     public int read() throws IOException {
         return 0;
@@ -36,9 +35,9 @@ public class MyDecompressorInputStream extends InputStream {
         // Reads all the data
         data = in.readAllBytes();
 
-        for (int i=0; i<4; i++)
+        for (int i=4; i<8; i++)
         {
-            row += data[i];
+            col += Byte.toUnsignedInt(data[i]);
         }
 
         System.arraycopy(data, 0, answer, 0, 4);
@@ -56,13 +55,14 @@ public class MyDecompressorInputStream extends InputStream {
         int counter = 0;
 
         // How much elements to read for each row
-        int elementsInRow = (int) Math.ceil((double)row / 8);
+        int elementsInRow = (int) Math.ceil((double)col / 8);
 
         // Number of digits in the end of each row
-        int endRowDigits = row % 8;
+        int endRowDigits = col % 8;
 
         for (int i=8; i< data.length-16; i++)
         {
+
             byte curNum = data[i];
 
             // Last element in the row
@@ -108,9 +108,9 @@ public class MyDecompressorInputStream extends InputStream {
 
         String ans = stringAns.toString();
 
-        for (int i=8; i<ans.length()-16; i++)
+        for (int i=0; i<ans.length(); i++)
         {
-            answer[i] = (byte) ans.charAt(i);
+            answer[8+i] = (byte) ans.charAt(i);
         }
 
 
