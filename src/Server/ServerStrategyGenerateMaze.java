@@ -1,13 +1,12 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
-import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.*;
 
 import java.io.*;
 import java.nio.channels.Channels;
 
-public class ServerStrategyGenerateMaze implements ServerStrategy{
+public class ServerStrategyGenerateMaze implements IServerStrategy {
 
     /**
      * This function apply the server strategy to generate maze, and then send it back compressed to the client by his socket connection.

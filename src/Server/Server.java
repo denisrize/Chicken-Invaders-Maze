@@ -1,11 +1,8 @@
 package Server;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,12 +10,12 @@ public class Server implements Runnable {
     private int port;
     private int listeningIntervalMS;
     private volatile boolean stop;
-    private ServerStrategy strategy;
+    private IServerStrategy strategy;
     private ExecutorService threadPool;
     private Thread ServerThread;
 
 
-    public Server(int port, int listeningIntervalMS, ServerStrategy strategy) {
+    public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;
         this.stop = false;
         this.listeningIntervalMS = listeningIntervalMS;
