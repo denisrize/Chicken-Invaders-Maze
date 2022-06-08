@@ -19,6 +19,10 @@ public class Configurations {
     private  String generatorAlgorithm;
     private  Properties prop;
 
+    /**
+     *  This configuration class initially will load the config file data to it fields and then will set
+     *  values if requested to the config file while updating it fields accordingly.
+     */
     private Configurations(){
         try {
             InputStream file = new FileInputStream(new File("resources/config.properties"));

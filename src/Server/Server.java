@@ -26,6 +26,10 @@ public class Server implements Runnable {
         this.threadPool = Executors.newFixedThreadPool(Configurations.getInstance().getNumberOfThreads());
         this.ServerThread = new Thread(this);
     }
+
+    /**
+     * This function responsible to start the server by running separate thread
+     */
     public void start(){
         if(!ServerThread.isAlive()) ServerThread.start();
     }
@@ -35,6 +39,11 @@ public class Server implements Runnable {
         }
     }
 
+    /**
+     * This function responsible to run the server by waiting for clients to connect to the serverSocket and then send
+     * him to the thread pool where he will be hanlded by the suitable strategy.
+     *
+     */
     @Override
     public void run()  {
         try {
@@ -52,7 +61,7 @@ public class Server implements Runnable {
                     threadPool.execute(new RunStrategy(clientSocket));
 
                 } catch (IOException e) {
-                    System.out.println("No maze to generate today...?");
+                    System.out.println("Server waiting for client...");
                 }
             }
             serverSocket.close();
@@ -64,7 +73,9 @@ public class Server implements Runnable {
         }
     }
 
-
+    /**
+     * Private class that execute the server strategy by the threads in the thread pool.
+     */
     private class RunStrategy implements Runnable{
         Socket clientSocket;
         public RunStrategy(Socket clientSocket) {

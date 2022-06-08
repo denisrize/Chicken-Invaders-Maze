@@ -8,6 +8,12 @@ import java.io.*;
 import java.nio.channels.Channels;
 
 public class ServerStrategyGenerateMaze implements ServerStrategy{
+
+    /**
+     * This function apply the server strategy to generate maze, and then send it back compressed to the client by his socket connection.
+     * @param inFromClient Client input stream the server got from the socket connection.
+     * @param outToClient Client output  stream the server got from the socket connection.
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         IMazeGenerator generator = Configurations.getInstance().getGeneratorAlgorithm();
@@ -30,6 +36,13 @@ public class ServerStrategyGenerateMaze implements ServerStrategy{
         }
 
     }
+
+    /**
+     * getCompressMaze responsible to compress the maze, It does that by sending a file output stream to the compressor class
+     * where he will write the result to the file and then this function will read it from that file and return the result.
+     * @param maze The maze for compression.
+     * @return compress maze represented by byte array.
+     */
     private byte[] getCompressMaze(Maze maze){
         String tempFileName = "mazeHolder.txt";
         try {

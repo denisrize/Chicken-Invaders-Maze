@@ -12,6 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerStrategySolveSearchProblem implements ServerStrategy{
 
     private static AtomicInteger numOfSolution ;
+
+    /**
+     * This function apply the server strategy to solve a given maze. First it checks if the maze already been solved
+     * earlier if it does then it will send back to the client the existing solution throw the socket.Else
+     * it will try to solve it, write the solution to a file to hold it and then send it back to client.
+     * @param inFromClient Client input stream the server got from the socket connection.
+     * @param outToClient Client output  stream the server got from the socket connection.
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         InputStream interruptibleInputStream = Channels.newInputStream(Channels.newChannel(inFromClient));
@@ -40,6 +48,11 @@ public class ServerStrategySolveSearchProblem implements ServerStrategy{
         }
     }
 
+    /**
+     * This function search for a solution if there is one in the temp directory that hold the already solved maze object files.
+     * @param maze maze to check if it been already solved.
+     * @return return the existing solution to the maze if there is one or else null.
+     */
     private Solution findIfSolutionExist(Maze maze) {
         String tmpdir = System.getProperty("java.io.tmpdir");
         File folder = new File(tmpdir);
@@ -72,7 +85,11 @@ public class ServerStrategySolveSearchProblem implements ServerStrategy{
         return null;
     }
 
-
+    /**
+     * This function create a new files, temp file for the maze and regular file for the solution ( as requested for the project).
+     * @param maze The maze we want to write to a file.
+     * @param sol The solution we want to write to a file.
+     */
     private void writeMazeSolutionToFile(Maze maze, Solution sol ){
         if(numOfSolution == null) numOfSolution = new AtomicInteger();
         int numSol = numOfSolution.incrementAndGet();
