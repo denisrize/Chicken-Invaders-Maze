@@ -1,12 +1,15 @@
 package View;
 
+import algorithms.search.SearchableMaze;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class MazeDisplayer extends Canvas {
-    private int[][] maze;
-    public void drawMaze(int[][] maze) {
+
+    private SearchableMaze maze;
+
+    public void drawMaze(SearchableMaze maze) {
         this.maze = maze;
         draw();
     }
@@ -15,8 +18,8 @@ public class MazeDisplayer extends Canvas {
         if(maze != null){
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
-            int rows = maze.length;
-            int cols = maze[0].length;
+            int rows = maze.maze.getRow();
+            int cols = maze.maze.getCol();
 
             double cellHeight = canvasHeight / rows;
             double cellWidth = canvasWidth / cols;
@@ -28,8 +31,9 @@ public class MazeDisplayer extends Canvas {
 
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    if(maze[i][j] == 1){
-                        //if it is a wall:
+                    //if it is a wall:
+                    if(maze.maze.getPosition(i, j).isWall()){
+
                         double x = j * cellWidth;
                         double y = i * cellHeight;
                         graphicsContext.fillRect(x, y, cellWidth, cellHeight);
