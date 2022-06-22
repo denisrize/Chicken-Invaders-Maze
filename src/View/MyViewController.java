@@ -1,26 +1,17 @@
 package View;
 
 import ViewModel.MyViewModel;
-import algorithms.mazeGenerators.IMazeGenerator;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.search.SearchableMaze;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
-import java.awt.event.KeyEvent;
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
-public class MyViewController implements Observer, Initializable {
+public class MyViewController implements Observer {
 
-    public IMazeGenerator generator;
     public TextField textField_mazeRows;
     public TextField textField_mazeColumns;
     public MazeDisplayer mazeDisplayer;
@@ -28,16 +19,14 @@ public class MyViewController implements Observer, Initializable {
 
 
     public void generateMaze(ActionEvent actionEvent) {
-        if(generator == null)
-            generator = new MyMazeGenerator();
+        if(viewModel == null){
+            viewModel = new MyViewModel();
+            viewModel.addObserver(this);
+        }
 
-        int rows = Integer.valueOf(textField_mazeRows.getText());
-        int cols = Integer.valueOf(textField_mazeColumns.getText());
-
-        Maze m = generator.generate(rows, cols);
-        SearchableMaze maze = new SearchableMaze(m);
-
-        mazeDisplayer.drawMaze(maze);
+        int rows = Integer.parseInt(textField_mazeRows.getText());
+        int cols = Integer.parseInt(textField_mazeColumns.getText());
+        viewModel.generateMaze(rows,cols);
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -46,10 +35,6 @@ public class MyViewController implements Observer, Initializable {
         alert.show();
     }
 
-    public void playerMovement(KeyEvent keyEvent) {
-
-        viewModel.moveCharacter(keyEvent);
-    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -59,16 +44,31 @@ public class MyViewController implements Observer, Initializable {
         switch (option)
         {
             case "Character Location Changed":
+                mazeDisplayer.setPlayerPosition(viewModel.getRowLocation(),viewModel.getColLocation());
+                break;
+            case "Maze generated":
+                mazeDisplayer.setPlayerPosition(-1,-1);
+                mazeDisplayer.setTargetPosition(-1,-1);
+                break;
+            default:
+                break;
 
         }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        mazeDisplayer.drawMaze(viewModel.getMaze());
 
     }
 
     public void setViewModel(MyViewModel viewModel){
         this.viewModel = viewModel;
+        viewModel.addObserver(this);
+    }
+
+    public void playerMovement(KeyEvent keyEvent) {
+        viewModel.moveCharacter(keyEvent);
+        keyEvent.consume();
+    }
+
+    public void mouseClicked(MouseEvent mouseEvent) {
+        mazeDisplayer.requestFocus();
     }
 }
