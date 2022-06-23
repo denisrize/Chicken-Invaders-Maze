@@ -1,14 +1,21 @@
 package View;
 
 import ViewModel.MyViewModel;
+import com.sun.glass.ui.Window;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
+
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 public class MyViewController implements Observer {
 
@@ -35,6 +42,18 @@ public class MyViewController implements Observer {
         alert.show();
     }
 
+    public void showWinningMessage(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("You reach the Target congratulation!!");
+        /*alert.setOnCloseRequest( e ->{
+            mazeDisplayer.requestFocus();
+            mazeDisplayer.clearMaze();
+        } );
+        */
+        alert.showAndWait();
+
+
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -43,6 +62,12 @@ public class MyViewController implements Observer {
 
         switch (option)
         {
+            case "Changed Location and win":
+                mazeDisplayer.setPlayerPosition(viewModel.getRowLocation(),viewModel.getColLocation());
+                mazeDisplayer.drawMaze(viewModel.getMaze());
+                showWinningMessage();
+                mazeDisplayer.setPlayerPosition(-1,-1);
+                break;
             case "Character Location Changed":
                 mazeDisplayer.setPlayerPosition(viewModel.getRowLocation(),viewModel.getColLocation());
                 break;

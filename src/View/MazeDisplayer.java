@@ -81,6 +81,12 @@ public class MazeDisplayer extends Canvas {
         this.maze = maze;
         draw();
     }
+    public void clearMaze(){
+        System.out.println("cleaning maze..");
+        GraphicsContext graphicsContext = getGraphicsContext2D();
+        graphicsContext.clearRect(0, 0, getWidth(), getHeight());
+
+    }
 
     private void draw() {
         if(maze != null){
@@ -94,7 +100,7 @@ public class MazeDisplayer extends Canvas {
 
             GraphicsContext graphicsContext = getGraphicsContext2D();
             //clear the canvas:
-            graphicsContext.clearRect(0, 0, canvasWidth, canvasHeight);
+            clearMaze();
             graphicsContext.setFill(Color.BROWN);
 
             Image wallImage = null;

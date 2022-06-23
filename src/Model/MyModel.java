@@ -20,43 +20,43 @@ public class MyModel extends Observable implements IModel{
         switch (step)
         {
             case 1: // </
-                if(rowLocation < maze.getRow()-1 && colLocation > 0){
+                if(rowLocation < maze.getRow()-1 && colLocation > 0 && !maze.getPosition(rowLocation+1,colLocation-1).isWall()){
                     rowLocation += 1;
                     colLocation -= 1;
                 }
                 break;
             case 2: // down
-            if (rowLocation < maze.getRow() - 1)
+            if (rowLocation < maze.getRow() - 1 && !maze.getPosition(rowLocation+1,colLocation).isWall())
                 rowLocation += 1;
             break;
             case 3: // \>
-                if( colLocation < maze.getCol() -1 && rowLocation < maze.getRow() - 1){
+                if( colLocation < maze.getCol() -1 && rowLocation < maze.getRow() - 1 && !maze.getPosition(rowLocation+1,colLocation+1).isWall()){
                     colLocation += 1;
                     rowLocation += 1;
                 }
                 break;
             case 4: // left
-                if (colLocation > 0)
+                if (colLocation > 0 && !maze.getPosition(rowLocation,colLocation-1).isWall())
                     colLocation -= 1;
                 break;
             case 5:
                 break;
             case 6:
-                if (colLocation < maze.getCol() - 1)
+                if (colLocation < maze.getCol() - 1 && !maze.getPosition(rowLocation,colLocation+1).isWall())
                     colLocation += 1;
                 break;
             case 7: // <\
-                if (rowLocation > 0 && colLocation > 0) {
+                if (rowLocation > 0 && colLocation > 0 && !maze.getPosition(rowLocation-1,colLocation-1).isWall()) {
                     rowLocation -= 1;
                     colLocation -= 1;
                 }
                 break;
             case 8://up
-                if (rowLocation > 0)
+                if (rowLocation > 0 && !maze.getPosition(rowLocation-1,colLocation).isWall())
                     rowLocation -= 1;
                 break;
             case 9:
-                if (rowLocation > 0 && colLocation < maze.getCol() - 1) {
+                if (rowLocation > 0 && colLocation < maze.getCol() - 1 && !maze.getPosition(rowLocation-1,colLocation+1).isWall()) {
                     rowLocation -= 1;
                     colLocation += 1;
                 }
@@ -64,6 +64,8 @@ public class MyModel extends Observable implements IModel{
         }
 
         setChanged();
+        if( rowLocation == maze.getGoalPosition().getRowIndex() && colLocation == maze.getGoalPosition().getColumnIndex())
+            notifyObservers("Changed Location and win");
         notifyObservers("Character Location Changed");
     }
 

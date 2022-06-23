@@ -47,6 +47,8 @@ public class MyViewModel extends Observable implements Observer {
 
             switch (option)
             {
+                case "Changed Location and win":
+                    break;
                 case "Character Location Changed":
                     break;
                 case "Maze generated":
