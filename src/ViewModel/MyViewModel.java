@@ -3,11 +3,14 @@ package ViewModel;
 import Model.IModel;
 import Model.MyModel;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.MazeState;
+import algorithms.search.Solution;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,6 +25,17 @@ public class MyViewModel extends Observable implements Observer {
 
     public void generateMaze(int row , int col ){
         model.generateMaze(row,col);
+    }
+
+    public void solveMaze(){
+        model.solveMaze();
+    }
+
+    public void saveMaze(String fileName){
+        model.saveMaze(fileName);
+    }
+    public void loadMaze(String fileName){
+        model.loadMaze(fileName);
     }
 
     public void moveCharacter(KeyEvent keyEvent){
@@ -47,6 +61,12 @@ public class MyViewModel extends Observable implements Observer {
 
             switch (option)
             {
+                case "loaded successfully":
+                    break;
+                case "load failed":
+                    break;
+                case "Maze solved":
+                    break;
                 case "Changed Location and win":
                     break;
                 case "Character Location Changed":
@@ -61,6 +81,10 @@ public class MyViewModel extends Observable implements Observer {
 
     }
 
+    public ArrayList<MazeState> getSolutionPath(){
+        return model.getSolutionPath();
+    }
+
     public Maze getMaze(){
         return model.getMaze();
     }
@@ -72,8 +96,6 @@ public class MyViewModel extends Observable implements Observer {
     public int getColLocation() {
         return model.getColLocation();
     }
-
-
 
     public void setModel(MyModel model) {
         this.model = model;
