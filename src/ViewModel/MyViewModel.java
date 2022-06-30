@@ -34,6 +34,7 @@ public class MyViewModel extends Observable implements Observer {
     public void saveMaze(String fileName){
         model.saveMaze(fileName);
     }
+
     public void loadMaze(String fileName){
         model.loadMaze(fileName);
     }
@@ -50,6 +51,10 @@ public class MyViewModel extends Observable implements Observer {
         int direction = Integer.valueOf(keyEvent.getText());
         if(direction > 0 && direction < 10)
             model.updateCharacterLocation(direction);
+    }
+
+    public void endGame(){
+        model.closeModel();
     }
 
     @Override

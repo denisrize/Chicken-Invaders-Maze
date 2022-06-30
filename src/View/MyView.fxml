@@ -72,10 +72,10 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Options">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Properties" />
+                                <MenuItem mnemonicParsing="false" text="Properties" onAction="#popUpProperties" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Exit">
+                        <Menu mnemonicParsing="false" fx:id="exit"  >
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                         </Menu>
@@ -88,8 +88,8 @@
     </top>
     <center  >
         <Pane fx:id="centerPane" maxHeight="800.0" maxWidth="800.0" minHeight="400.0" minWidth="400.0" prefHeight="560.0" prefWidth="560.0"  BorderPane.alignment="CENTER">
-            <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="400.0" imageFileNamePlayer="Resources/images/mario-run.png" imageFileNameSolveSign="Resources/images/starCoin.png" imageFileNameTarget="Resources/images/red-mushroom.png" imageFileNameWall="Resources/images/wall.png" onKeyPressed="#playerMovement" width="400.0" />
+              <children>
+                  <MazeDisplayer fx:id="mazeDisplayer"  height="400.0" imageFileNamePlayer="Resources/images/mario-run.png" imageFileNameSolveSign="Resources/images/starCoin.png" imageFileNameTarget="Resources/images/red-mushroom.png" imageFileNameWall="Resources/images/wall.png" onKeyPressed="#playerMovement" width="400.0" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

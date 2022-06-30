@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class SaveLoadController {
-    private Parent root;
     public TextField SaveInputName;
     public TextField LoadInputName;
     public String saveMazeName;

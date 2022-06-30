@@ -6,9 +6,9 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.search.*;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 public class MyModel extends Observable implements IModel{
@@ -22,11 +22,26 @@ public class MyModel extends Observable implements IModel{
     private ArrayList<MazeState> solPath;
 
     public MyModel(){
+        solPath = new ArrayList<>();
+
         IServerStrategy generator = new ServerStrategyGenerateMaze();
         IServerStrategy solver = new ServerStrategySolveSearchProblem();
         genServer = new Server(5400,5000,generator);
         solServer = new Server(5401,5000,solver);
+        genServer.start();
+        solServer.start();
 
+    }
+    public void closeModel(){
+        try {
+            File directory = new File("SavedMazes");
+            for (File f : directory.listFiles())
+                f.delete();
+        }catch (NullPointerException e){
+            System.out.println("Need to open SavedMazes folder to save maze.");
+        }
+        genServer.stop();
+        solServer.stop();
     }
 
     public void updateCharacterLocation(int step) {
@@ -108,7 +123,7 @@ public class MyModel extends Observable implements IModel{
     public void saveMaze(String fileName){
         if(maze != null){
             try {
-                FileOutputStream fos = new FileOutputStream(fileName + ".txt");
+                FileOutputStream fos = new FileOutputStream(new File("SavedMazes",fileName + ".txt"));
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(maze);
                 oos.close();
@@ -120,9 +135,9 @@ public class MyModel extends Observable implements IModel{
     }
 
     public void generateMaze(int row,int col){
-        genServer.start();
         try {
-            Socket serverSocket = new Socket("127.0.0.1", 5400); // change to InetAddress.getLocalHost()
+
+            Socket serverSocket = new Socket( "127.0.0.1", 5400); // change to InetAddress.getLocalHost() ,
             ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
             ObjectInputStream fromServer = new ObjectInputStream(serverSocket.getInputStream());
             toServer.flush();
@@ -133,21 +148,19 @@ public class MyModel extends Observable implements IModel{
             byte[] decompressedMaze = new byte[row*col+24];
             is.read(decompressedMaze);
             maze = new Maze(decompressedMaze);
+            setChanged();
+            notifyObservers("Maze generated");
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        genServer.stop();
-        setChanged();
-        notifyObservers("Maze generated");
-    }
 
+    }
 
     public void solveMaze(){
         if(maze != null){
-            solServer.start();
             try {
-                Socket serverSocket = new Socket("127.0.0.1", 5400);// change to InetAddress.getLocalHost()
+                Socket serverSocket = new Socket("127.0.0.1", 5401);// change to InetAddress.getLocalHost()
                 ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
                 ObjectInputStream fromServer = new ObjectInputStream(serverSocket.getInputStream());
                 toServer.flush();
@@ -157,7 +170,7 @@ public class MyModel extends Observable implements IModel{
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            solServer.stop();
+
             if( sol != null){
                 ArrayList<AState> origin = sol.getSolutionPath();
                 solPath.clear();
