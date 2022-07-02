@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -45,7 +46,11 @@ public class MyViewController implements Observer, Initializable {
     public MyViewModel viewModel;
     public MediaPlayer mediaPlayer;
     public ScrollPane scrollPane;
-    public Menu exit;
+    public Menu Exit;
+    public Menu Help;
+    public Menu About;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,7 +66,6 @@ public class MyViewController implements Observer, Initializable {
         scrollPane.setPannable(true);
         centerPane.getChildren().add(scrollPane);
         addMouseScrolling(mazeDisplayer);
-
         //initialize music
         backGroundMusic("Resources/Audio/GameMusic.mp3");
         mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -73,19 +77,39 @@ public class MyViewController implements Observer, Initializable {
         });
 
         // initialize exit button
-        setExitButton();
+        setMenuButton();
 
     }
 
-    public void setExitButton(){
-        Label menuLabel = new Label("Exit");
-        menuLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+    public void setMenuButton(){
+        Label menuLabelExit = new Label("Exit");
+        Label menuLabelHelp = new Label("Help");
+        Label menuLabelAbout = new Label("About");
+
+        menuLabelAbout.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                popUpPage("About");
+            }
+        });
+        About.setGraphic(menuLabelAbout);
+
+        menuLabelHelp.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                popUpPage("Help");
+            }
+        });
+        Help.setGraphic(menuLabelHelp);
+
+        menuLabelExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
               endGame();
             }
             });
-            exit.setGraphic(menuLabel);
+            Exit.setGraphic(menuLabelExit);
         }
 
     public void addMouseScrolling(MazeDisplayer md) {
@@ -132,11 +156,7 @@ public class MyViewController implements Observer, Initializable {
         viewModel.solveMaze();
     }
 
-    public void showWinningMessage(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("You reach the Target congratulation!!");
-        alert.showAndWait();
-    }
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -153,7 +173,7 @@ public class MyViewController implements Observer, Initializable {
                 mazeDisplayer.setPlayerPosition(viewModel.getRowLocation(), viewModel.getColLocation());
                 mazeDisplayer.drawMaze(viewModel.getMaze());
                 backGroundMusic("Resources/Audio/Victory.mp3");
-                showWinningMessage();
+                showWinningWindow();
                 mazeDisplayer.clearMaze();
                 mazeDisplayer.drawMaze(viewModel.getMaze());
             }
@@ -249,6 +269,53 @@ public class MyViewController implements Observer, Initializable {
         stage.initOwner(mazeDisplayer.getScene().getWindow());
         stage.showAndWait();
 
+    }
+
+    public void showWinningWindow(){
+        double pSteps = viewModel.getPlayerSteps();
+        double oSteps = viewModel.getBestSteps();
+        int gameP = 0;
+        Boolean helpFlag = viewModel.getAskForHelp();
+        if(!helpFlag)gameP = (int)Math.floor((oSteps/pSteps)*100);
+
+
+        String rows = String.valueOf(viewModel.getRows());
+        String cols = String.valueOf(viewModel.getCols());
+        Stage stage = new Stage();
+        Parent root = null;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource( "Win.fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene winScene = new Scene(root);
+        stage.setScene(winScene);
+        stage.setTitle("MAZE SOLVED");
+        Win winController = loader.getController();
+        winController.setWinWindow(rows,cols,String.valueOf(pSteps),String.valueOf(oSteps),String.valueOf(gameP),helpFlag,this);
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(mazeDisplayer.getScene().getWindow());
+        stage.show();
+    }
+
+    public void popUpPage(String page) {
+        Stage stage = new Stage();
+        Parent root = null;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(page +".fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setScene(new Scene(root));
+        stage.setTitle("Maze " + page);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(mazeDisplayer.getScene().getWindow());
+        stage.showAndWait();
     }
 
     public void endGame() {

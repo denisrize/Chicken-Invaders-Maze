@@ -15,15 +15,15 @@ public class MyModel extends Observable implements IModel{
 
     private int rowLocation;
     private int colLocation;
-    private Server genServer;
-    private Server solServer;
+    private final Server genServer;
+    private final Server solServer;
     private Maze maze;
     private Solution sol;
     private ArrayList<MazeState> solPath;
+    private int stepsCount;
 
     public MyModel(){
         solPath = new ArrayList<>();
-
         IServerStrategy generator = new ServerStrategyGenerateMaze();
         IServerStrategy solver = new ServerStrategySolveSearchProblem();
         genServer = new Server(5400,5000,generator);
@@ -32,6 +32,7 @@ public class MyModel extends Observable implements IModel{
         solServer.start();
 
     }
+
     public void closeModel(){
         try {
             File directory = new File("SavedMazes");
@@ -90,14 +91,16 @@ public class MyModel extends Observable implements IModel{
                     colLocation += 1;
                 }
                 break;
+            default: stepsCount--;
         }
-
+        stepsCount++;
         setChanged();
         if( rowLocation == maze.getGoalPosition().getRowIndex() && colLocation == maze.getGoalPosition().getColumnIndex())
             notifyObservers("Changed Location and win");
         notifyObservers("Character Location Changed");
     }
 
+    public int getPlayerSteps(){return stepsCount;}
 
     public void loadMaze(String fileName) {
         FileInputStream fis = null;
@@ -135,8 +138,8 @@ public class MyModel extends Observable implements IModel{
     }
 
     public void generateMaze(int row,int col){
+        stepsCount = 0;
         try {
-
             Socket serverSocket = new Socket( "127.0.0.1", 5400); // change to InetAddress.getLocalHost() ,
             ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
             ObjectInputStream fromServer = new ObjectInputStream(serverSocket.getInputStream());
@@ -158,6 +161,10 @@ public class MyModel extends Observable implements IModel{
     }
 
     public void solveMaze(){
+        // player asked for help
+        if( rowLocation != maze.getGoalPosition().getRowIndex() && colLocation != maze.getGoalPosition().getColumnIndex())
+            stepsCount = 0;
+
         if(maze != null){
             try {
                 Socket serverSocket = new Socket("127.0.0.1", 5401);// change to InetAddress.getLocalHost()
