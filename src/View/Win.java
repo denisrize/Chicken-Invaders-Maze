@@ -38,11 +38,11 @@ public class Win {
         Image tr = null;
         int points = Integer.parseInt(gameP);
         if( points >= 80 )
-            tr = new Image("Images/gold.jpg");
+            tr = new Image("Images/gold.png");
         else if( points >= 50)
-            tr = new Image("Images/silver.jpg");
+            tr = new Image("Images/silver.png");
         else
-            tr = new Image("Images/bronze.jpg");
+            tr = new Image("Images/bronze.png");
 
         trophyImage.setImage(tr);
 

@@ -1,5 +1,6 @@
-.root {
-    -fx-background-color: bisque;
+
+Label{
+      -fx-text-fill: white;
 
 }
 
@@ -10,8 +11,9 @@ Button {
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
-
-
+#pane {
+    -fx-background-image: url("Images/world.jpg");
+}
 
 Button:hover {
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane style="-fx-background-image: url('Images/two-chicken.jpg');-fx-background-size: cover;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -17,7 +17,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello dear invader,&#10;We need you to save the Galaxy from the evil chicken LORD!&#10;" textAlignment="CENTER">
+            <Text fill="#FFFFFF" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello dear invader,&#10;We need you to save the Galaxy from the evil chicken LORD!&#10;" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -33,14 +33,14 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text fill="#5645ac" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Moves:">
+                  <Label   text="Game Moves:">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
-                  </Text>
+                  </Label>
                   <GridPane>
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -84,7 +84,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your purpose is to solve the maze and help the space ship to find the chicken LORD. &#10;Make as few steps as possible to get maximum Points.   " />
+                  <Text fill="#FFFFFF" strokeType="OUTSIDE" strokeWidth="0.0" text="Your purpose is to solve the maze and help the space ship to find the chicken LORD. &#10;Make as few steps as possible to get maximum Points.   " />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
@@ -99,7 +99,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="if you get stuck you can always see the solution by clicking on solve maze ; )">
+                  <Text fill="#FFFFFF" strokeType="OUTSIDE" strokeWidth="0.0" text="if you get stuck you can always see the solution by clicking on solve maze ; )">
                      <font>
                         <Font size="10.0" />
                      </font>

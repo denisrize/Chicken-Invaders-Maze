@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane id="winnerBorderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('Images/explosion.jpeg');-fx-background-repeat: stretch;" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Win">
+<BorderPane id="winnerBorderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('Images/spaceShip.jpg');-fx-background-size: cover;" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Win">
    <top>
       <Label text="Winner" textFill="#3316a4" underline="true" BorderPane.alignment="CENTER">
          <font>
@@ -21,7 +21,7 @@
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font></Text>
-            <ImageView fx:id="trophyImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView  fx:id="trophyImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
                   <Text fill="#8992cc" strokeType="OUTSIDE" strokeWidth="0.0" text="Solved Maze size is: ">

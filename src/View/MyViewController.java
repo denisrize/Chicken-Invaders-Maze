@@ -10,15 +10,20 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Scale;
@@ -28,10 +33,10 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -51,7 +56,6 @@ public class MyViewController implements Observer, Initializable {
     public Menu About;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         viewModel = new MyViewModel();
@@ -60,10 +64,18 @@ public class MyViewController implements Observer, Initializable {
         // resize maze when user change window size.
         mazeDisplayer.heightProperty().bind(centerPane.heightProperty());
         mazeDisplayer.widthProperty().bind(centerPane.widthProperty());
-
+        Image img = new Image("Images/world.jpg");
+        BackgroundImage bImg = new BackgroundImage(img,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        Background bGround = new Background(bImg);
+        MainBorderPane.setBackground(bGround);
         //initialize zoom in/out
         scrollPane = new ScrollPane(mazeDisplayer);
         scrollPane.setPannable(true);
+        scrollPane.setId("scroll");
         centerPane.getChildren().add(scrollPane);
         addMouseScrolling(mazeDisplayer);
         //initialize music
@@ -82,10 +94,16 @@ public class MyViewController implements Observer, Initializable {
     }
 
 
+
+
     public void setMenuButton(){
         Label menuLabelExit = new Label("Exit");
+        menuLabelExit.setStyle("-fx-text-fill: black;");
         Label menuLabelHelp = new Label("Help");
+        menuLabelHelp.setStyle("-fx-text-fill: black;");
         Label menuLabelAbout = new Label("About");
+        menuLabelAbout.setStyle("-fx-text-fill: black;");
+
 
         menuLabelAbout.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -263,7 +281,9 @@ public class MyViewController implements Observer, Initializable {
         }
         PropController propController = loader.getController();
         propController.setMatrix();
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+        stage.setScene(scene);
         stage.setTitle("Maze Properties");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(mazeDisplayer.getScene().getWindow());
@@ -291,6 +311,7 @@ public class MyViewController implements Observer, Initializable {
             e.printStackTrace();
         }
         Scene winScene = new Scene(root);
+        winScene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
         stage.setScene(winScene);
         stage.setTitle("MAZE SOLVED");
         Win winController = loader.getController();
@@ -311,7 +332,9 @@ public class MyViewController implements Observer, Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+        stage.setScene(scene);
         stage.setTitle("Maze " + page);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(mazeDisplayer.getScene().getWindow());
