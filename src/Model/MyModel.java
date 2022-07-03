@@ -103,9 +103,10 @@ public class MyModel extends Observable implements IModel{
     public int getPlayerSteps(){return stepsCount;}
 
     public void loadMaze(String fileName) {
+        String result = "loaded successfully";
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(fileName + ".txt");
+            fis = new FileInputStream(new File("SavedMazes",fileName + ".txt"));
             ObjectInputStream oiss = new ObjectInputStream(fis);
             maze = (Maze) oiss.readObject();
             System.out.println("Maze start: " + maze.getStartPosition());
@@ -114,12 +115,12 @@ public class MyModel extends Observable implements IModel{
             colLocation = maze.getStartPosition().getColumnIndex();
 
         } catch (FileNotFoundException e) {
-            notifyObservers("load failed");
+            result = "load failed";
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         setChanged();
-        notifyObservers("loaded successfully");
+        notifyObservers(result);
 
     }
 

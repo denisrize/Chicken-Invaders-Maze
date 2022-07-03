@@ -161,20 +161,22 @@ public class MyViewController implements Observer, Initializable {
         int cols = Integer.parseInt(textField_mazeColumns.getText());
         if(rows < 4 || cols < 4)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Minimum size of rows,colmuns is 4! choose bigger maze.");
-            alert.show();
+            showAlertWarning("Minimum size of rows,colmuns is 4! choose bigger maze.");
         }
         else if(rows > 100 || cols > 100){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Maximum size of rows,colmuns is 100! choose smaller maze.");
-            alert.show();
+            showAlertWarning("Maximum size of rows,colmuns is 100! choose smaller maze.");
         }
         else{
             if(solveBtn.isDisable())
                 solveBtn.setDisable(false);
             viewModel.generateMaze(rows,cols);
         }
+    }
+
+    public void showAlertWarning(String msg){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setContentText(msg);
+        alert.show();
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -187,6 +189,7 @@ public class MyViewController implements Observer, Initializable {
         String option = (String) arg;
 
         switch (option) {
+            case "load failed" -> showAlertWarning("There no maze saved in that name.");
             case "loaded successfully", "Maze generated" -> {
                 mazeDisplayer.clearMaze();
                 mazeDisplayer.drawMaze(viewModel.getMaze());
@@ -263,7 +266,6 @@ public class MyViewController implements Observer, Initializable {
     public void popUpLoadName(ActionEvent actionEvent)  {
         Stage stage = new Stage();
         Parent root = null;
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LoadMaze.fxml"));
         try {
             root = loader.load();
