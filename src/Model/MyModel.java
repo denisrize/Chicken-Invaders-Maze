@@ -157,6 +157,8 @@ public class MyModel extends Observable implements IModel{
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        rowLocation = maze.getStartPosition().getRowIndex();
+        colLocation = maze.getStartPosition().getColumnIndex();
 
     }
 
