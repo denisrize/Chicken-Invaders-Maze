@@ -315,6 +315,7 @@ public class MyViewController implements Observer, Initializable {
         if(!helpFlag)gameP = (int)Math.floor((oSteps/pSteps)*100);
 
 
+
         String rows = String.valueOf(viewModel.getRows());
         String cols = String.valueOf(viewModel.getCols());
         Stage stage = new Stage();

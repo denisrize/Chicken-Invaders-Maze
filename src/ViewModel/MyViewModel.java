@@ -77,24 +77,9 @@ public class MyViewModel extends Observable implements Observer {
         if(o instanceof IModel){
 
             String option = (String) arg;
+            if(option.equals("Changed Location and win"))
+                model.solveMaze();
 
-            switch (option)
-            {
-                case "loaded successfully":
-                    break;
-                case "load failed":
-                    break;
-                case "Maze solved":
-                    break;
-                case "Changed Location and win":
-                    model.solveMaze();
-                    break;
-                case "Character Location Changed":
-                    break;
-                case "Maze generated":
-                    break;
-
-            }
             setChanged();
             notifyObservers(option);
         }
