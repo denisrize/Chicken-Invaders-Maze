@@ -17,7 +17,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = loader.load();
         MyViewController myView = loader.getController();
-        primaryStage.setTitle("Maze App");
+        primaryStage.setTitle("Chicken Invaders Maze");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import View.MazeDisplayer?>
-<BorderPane style="-fx-background-image: url('Images/world.jpg')" fx:id="MainBorderPane" onMouseClicked="#mouseClicked" stylesheets="@MainStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="View.MyViewController">
+<BorderPane  fx:id="MainBorderPane" style="-fx-background-image: url('Images/world.jpg')" onMouseClicked="#mouseClicked" stylesheets="@MainStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="View.MyViewController">
     <left>
         <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
@@ -90,7 +90,7 @@
     <center>
         <Pane  fx:id="centerPane" maxHeight="800.0" maxWidth="800.0" minHeight="400.0" minWidth="400.0" prefHeight="560.0" prefWidth="560.0"  BorderPane.alignment="CENTER">
               <children>
-                  <Pane fx:id="container" maxHeight="800.0" maxWidth="800.0" minHeight="400.0" minWidth="400.0" prefHeight="560.0" prefWidth="560.0">
+                  <Pane fx:id="container" maxHeight="800.0" maxWidth="800.0" minHeight="400.0" minWidth="400.0" >
                   <MazeDisplayer  fx:id="mazeDisplayer"  height="400.0" imageFileNamePlayer="Resources/Images/spaceCraft.png" imageFileNameSolveSign="Resources/images/egg.png" imageFileNameTarget="Resources/images/Lord.png" imageFileNameWall="Resources/images/chicken.png" onKeyPressed="#playerMovement" width="400.0" />
                   </Pane>
               </children>

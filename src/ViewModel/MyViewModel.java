@@ -62,9 +62,16 @@ public class MyViewModel extends Observable implements Observer {
         // direcrtion 5 --> />
         // direcrtion 6 --> </
         // direcrtion 7 --> \>
-        int direction = Integer.parseInt(keyEvent.getText());
-        if(direction > 0 && direction < 10)
-            model.updateCharacterLocation(direction);
+        try {
+            int direction = Integer.parseInt(keyEvent.getText());
+            if(direction > 0 && direction < 10)
+                model.updateCharacterLocation(direction);
+        }catch (NumberFormatException e){
+            System.out.println("Check your Num Lock please.");
+        }
+
+
+
     }
 
     public void endGame(){

@@ -175,7 +175,6 @@ public class MazeDisplayer extends Canvas {
         for(int i=0;i< sol.size();i++){
 
             Position currentPos = sol.get(i).getPosition();
-            System.out.println("Position: " + currentPos);
             row = currentPos.getRowIndex();
             col = currentPos.getColumnIndex();
 

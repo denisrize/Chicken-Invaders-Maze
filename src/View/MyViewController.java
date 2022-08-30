@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,18 +16,20 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -64,7 +67,6 @@ public class MyViewController implements Observer, Initializable {
         //initialize zoom in/out
         scrollPane = new ScrollPane(mazeDisplayer);
         scrollPane.setPannable(true);
-        scrollPane.setId("scroll");
         container.getChildren().add(scrollPane);
         addMouseScrolling(mazeDisplayer);
 
@@ -82,6 +84,7 @@ public class MyViewController implements Observer, Initializable {
         setMenuButton();
         setBackground();
     }
+
 
     private void setBackground(){
         Image img = new Image("Images/world.jpg");
@@ -163,7 +166,7 @@ public class MyViewController implements Observer, Initializable {
         {
             showAlertWarning("Minimum size of rows,colmuns is 4! choose bigger maze.");
         }
-        else if(rows > 100 || cols > 100){
+        else if(rows > 40 || cols > 40){
             showAlertWarning("Maximum size of rows,colmuns is 100! choose smaller maze.");
         }
         else{
