@@ -3,7 +3,12 @@ Label{
       -fx-text-fill: white;
 
 }
-
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+}
 Button {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";
