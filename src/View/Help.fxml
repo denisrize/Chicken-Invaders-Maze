@@ -99,7 +99,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="if you get stuck you can always see the solution by clicking on solve maze,&#10;but then you will get 0 points :(">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="if you get stuck you can always see the solution by clicking on solve maze,&#10;but you will get 0 points :(">
                      <font>
                         <Font size="10.0" />
                      </font>

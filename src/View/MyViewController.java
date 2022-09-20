@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,7 +15,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -30,13 +28,11 @@ import javafx.util.Duration;
 
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MyViewController implements Observer, Initializable {
 
@@ -83,6 +79,7 @@ public class MyViewController implements Observer, Initializable {
         // initialize exit button
         setMenuButton();
         setBackground();
+
     }
 
 
@@ -164,10 +161,10 @@ public class MyViewController implements Observer, Initializable {
         int cols = Integer.parseInt(textField_mazeColumns.getText());
         if(rows < 4 || cols < 4)
         {
-            showAlertWarning("Minimum size of rows,colmuns is 4! choose bigger maze.");
+            showAlertWarning("Minimum size of rows,colmuns is 4! choose bigger maze.","WARNING");
         }
         else if(rows > 40 || cols > 40){
-            showAlertWarning("Maximum size of rows,colmuns is 100! choose smaller maze.");
+            showAlertWarning("Maximum size of rows,colmuns is 100! choose smaller maze.","WARNING");
         }
         else{
             if(solveBtn.isDisable())
@@ -176,7 +173,7 @@ public class MyViewController implements Observer, Initializable {
         }
     }
 
-    public void showAlertWarning(String msg){
+    public void showAlertWarning(String msg,String Type){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setContentText(msg);
         alert.show();
@@ -192,7 +189,7 @@ public class MyViewController implements Observer, Initializable {
         String option = (String) arg;
 
         switch (option) {
-            case "load failed" -> showAlertWarning("There no maze saved in that name.");
+            case "load failed" -> showAlertWarning("There no maze saved in that name.","WARNING");
             case "loaded successfully", "Maze generated" -> {
                 mazeDisplayer.clearMaze();
                 mazeDisplayer.drawMaze(viewModel.getMaze());
@@ -331,9 +328,10 @@ public class MyViewController implements Observer, Initializable {
             e.printStackTrace();
         }
         Scene winScene = new Scene(root);
-        winScene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+        winScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("MainStyle.css")).toExternalForm());
         stage.setScene(winScene);
         stage.setTitle("MAZE SOLVED");
+        stage.getIcons().add(new Image("Images/trophyIcon.jpg"));
         Win winController = loader.getController();
         winController.setWinWindow(rows,cols,String.valueOf(pSteps),String.valueOf(oSteps),String.valueOf(gameP),helpFlag,this);
 

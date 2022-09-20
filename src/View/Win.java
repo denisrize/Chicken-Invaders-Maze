@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
 
@@ -35,16 +37,19 @@ public class Win {
         gamePoints.setText(gameP);
         if(helpFlag) help.setText("Yes");
         else help.setText("No");
-        Image tr = null;
+        FileInputStream inputstream = null;
         int points = Integer.parseInt(gameP);
-        if( points >= 80 )
-            tr = new Image("Images/gold.png");
-        else if( points >= 50)
-            tr = new Image("Images/silver.png");
-        else
-            tr = new Image("Images/bronze.png");
-
-        trophyImage.setImage(tr);
+        try{
+            if( points >= 80 )
+                inputstream = new FileInputStream("Resources/Images/gold.png");
+            else if( points >= 50)
+                inputstream = new FileInputStream("Resources/Images/silver.png");
+            else
+                inputstream = new FileInputStream("Resources/Images/bronze.png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        trophyImage.setImage(new Image(inputstream));
 
     }
 
